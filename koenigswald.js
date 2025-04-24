@@ -22,10 +22,6 @@ You keep working. You're not working to save them. You're working to save yourse
         choices: [
             { text: "Continue working in silence", next: "quietWork" },
             { text: "Confess to a colleague", next: "confessColleague" },
-            {
-                text: "Give in to the futility of your efforts to repent",
-                next: "quitJob",
-            },
         ],
     },
     treatableOnly: {
@@ -44,6 +40,10 @@ Now you count doses instead of bodies. But the math is the same: one life. Then 
         choices: [
             { text: "Try to forget again", next: "quietWork" },
             { text: "Confess to a colleague", next: "confessColleague" },
+            {
+                text: "Give in to the futility of your efforts to repent",
+                next: "quitJob",
+            },
         ],
     },
     quietWork: {
