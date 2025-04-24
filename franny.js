@@ -27,6 +27,7 @@ storyData.franny = {
                 next: "stepOutside",
             },
         ],
+        quote: `You’re talking like a section man (Salinger, 13).`,
     },
     talkToLane: {
         text: `Lane's eyes glaze over. You attempt to explain your frustration with the inauthenticity of the academic world. You explain that you use the Jesus Prayer as a means of seeking repentance. Not for any specific sins, but for the disillusionment you feel with the worlds you were once so close to: academia and performance. Your eyes begin to tear up; meanwhile, Lane looks both confused and disinterested.`,
@@ -64,6 +65,10 @@ storyData.franny = {
                 next: "askZooey",
             },
         ],
+        quote: `In going ahead with the Jesus
+Prayer—just let me finish, now, please—in going ahead with the Jesus Prayer, aren’t you trying to lay up some kind of treasure? Something
+that’s every goddam bit as negotiable as all
+those other, more material things? (Salinger, 125).`,
     },
     askZooey: {
         text: `Zooey sighs. "It means stop making your suffering sacred. Stop turning your despair into some kind of holy condition. Stop using the prayer for your own selfish gain. Help someone. Listen to someone. Live like the prayer means something." You sit with that.`,

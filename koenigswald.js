@@ -45,6 +45,8 @@ Now you count doses instead of bodies. But the math is the same: one life. Then 
                 next: "quitJob",
             },
         ],
+        quote: `If he keeps going at his present rate, working night
+and day, the number of people he’s saved will equal the number of people he let die—in the year 3010 (Vonnegut, 153).`,
     },
     quietWork: {
         text: `You become a machine. Wake, work, wash, repeat. No more thoughts. No more memory. The ward becomes your penance. The patients become your jury. You act as if each patient saved forgives one of the innocent victims you callously let go years back. You wonder if this is what redemption looks like: not peace, but perpetual motion. You've learned there is no such thing as writing the wrongs of history - the wrongs are set in stone. However, there does exist moving forward and doing good everyday, not as a form of repentance, but as a product of learning from the past.`,

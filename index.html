@@ -74,7 +74,12 @@
         <button onclick="startGame('koenigswald')">Von Koenigswald</button>
         <button onclick="startGame('dysart')">Dysart</button>
     </div>
-    <div id="game" style="display: none;"></div>
+    <div style="display: flex; gap: 2rem; justify-content: center;">
+        <div id="game" style="display: none; max-width: 600px;"></div>
+        <div id="quote-box"
+            style="display: none; max-width: 300px; font-style: italic; border-left: 2px solid #555; padding-left: 1rem;">
+        </div>
+    </div>
     <script src="franny.js"></script>
     <script src="sassoon.js"></script>
     <script src="koenigswald.js"></script>
@@ -98,9 +103,13 @@
                 const step = storyData[currentCharacter][currentLabel];
                 gameContainer.innerHTML = `<div class="fade"><p>${step.text}</p></div>`;
 
-                const existingGif = document.getElementById('ending-gif');
-                if (existingGif) {
-                    existingGif.remove();
+                const quoteBox = document.getElementById('quote-box');
+                if (step.quote) {
+                    quoteBox.innerHTML = `<div class="fade"><p>${step.quote}</p></div>`;
+                    quoteBox.style.display = 'block';
+                } else {
+                    quoteBox.style.display = 'none';
+                    quoteBox.innerHTML = '';
                 }
 
                 if (step.choices && step.choices.length > 0) {
@@ -128,13 +137,12 @@
                     restartBtn.onclick = () => {
                         gameContainer.style.display = 'none';
                         characterSelect.style.display = 'block';
-
-                        const gif = document.getElementById('ending-gif');
-                        if (gif) gif.remove();
+                        quoteBox.style.display = 'none';
                     };
                     gameContainer.appendChild(restartBtn);
                 }
             }
+
 
 
     </script>

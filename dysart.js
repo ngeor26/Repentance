@@ -16,6 +16,8 @@ But you hesitate. You see the dullness waiting on the other side of healing. And
                 next: "letAlanSpeak",
             },
         ],
+        quote: `I'll take away his Field of Ha Ha, and give
+him Normal places for his ecstasy (Shaffer, 109).`,
     },
     continueSessions: {
         text: `You guide him. Gently, carefully, like removing a thorn from a child’s skin. But you’re not healing, you’re disassembling. You know that. The thorn is so deep that pulling it out is damaging. 

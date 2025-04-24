@@ -12,6 +12,7 @@ storyData.sassoon = {
                 next: "leaveMilitary",
             },
         ],
+        quote: `Siegfried’s ‘solution’ was to tell himself that he was going back only to look after some men, but that formula would not survive the realities of France... Rivers knew, though he had never voiced his knowledge, that Sassoon was going back with the intention of being killed... And if death were to be denied? (Barker, 249-250).`,
     },
     returnToFront: {
         text: `You return. Mud, screams, and death await. Every step back into the trenches feels like a confession: not of loyalty, but of guilt. You tell yourself you must share their fate. That to protest and live while others die is a sin you cannot bear.`,
