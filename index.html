@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Madmen and Geniuses</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        #game,
+        #character-select {
+            max-width: 600px;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            margin: 0.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        .choice-btn {
+            display: block;
+            margin: 1rem auto;
+            width: 90%;
+        }
+
+        .fade {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <h1>Repentance: Fulfilling or Flawed</h1>
+    <p style="text-align: center; max-width: 600px;">
+        Does repentance actually heal, or is it flawed, or even futile?
+    </p>
+    <div id="character-select">
+        <h2>Choose a Character</h2>
+        <button onclick="startGame('franny')">Franny</button>
+        <button onclick="startGame('sassoon')">Sassoon</button>
+        <button onclick="startGame('koenigswald')">Von Koenigswald</button>
+        <button onclick="startGame('dysart')">Dysart</button>
+    </div>
+    <div id="game" style="display: none;"></div>
+    <script src="franny.js"></script>
+    <script src="sassoon.js"></script>
+    <script src="koenigswald.js"></script>
+    <script src="dysart.js"></script>
+    <script>
+        const gameContainer = document.getElementById('game');
+        const characterSelect = document.getElementById('character-select');
+
+        let currentCharacter = '';
+        let currentLabel = 'start';
+
+        function startGame(character) {
+            currentCharacter = character;
+            currentLabel = 'start';
+            characterSelect.style.display = 'none';
+            gameContainer.style.display = 'block';
+            showStep();
+        }
+
+        function showStep() {
+                const step = storyData[currentCharacter][currentLabel];
+                gameContainer.innerHTML = `<div class="fade"><p>${step.text}</p></div>`;
+
+                // Remove any existing ending gif
+                const existingGif = document.getElementById('ending-gif');
+                if (existingGif) {
+                    existingGif.remove();
+                }
+
+                if (step.choices && step.choices.length > 0) {
+                    step.choices.forEach(choice => {
+                        const btn = document.createElement('button');
+                        btn.textContent = choice.text;
+                        btn.className = 'choice-btn fade';
+                        btn.onclick = () => {
+                            currentLabel = choice.next;
+                            showStep();
+                        };
+                        gameContainer.appendChild(btn);
+                    });
+                } else {
+                    // Show lesson if available
+                    if (step.lesson) {
+                        const lessonEl = document.createElement('div');
+                        lessonEl.innerHTML = `<p><em>Lesson:</em> ${step.lesson}</p>`;
+                        lessonEl.className = 'fade';
+                        gameContainer.appendChild(lessonEl);
+                    }
+
+                    const restartBtn = document.createElement('button');
+                    restartBtn.textContent = "Restart";
+                    restartBtn.className = 'fade';
+                    restartBtn.onclick = () => {
+                        gameContainer.style.display = 'none';
+                        characterSelect.style.display = 'block';
+
+                        const gif = document.getElementById('ending-gif');
+                        if (gif) gif.remove();
+                    };
+                    gameContainer.appendChild(restartBtn);
+                }
+            }
+
+
+    </script>
+</body>
+
+</html>
