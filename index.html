@@ -12,8 +12,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem;
             zoom: 1.3;
+            position: relative;
+            overflow-x: hidden;
         }
 
         #game,
@@ -59,14 +60,55 @@
             }
         }
 
+        /* Book covers container */
+        .cover-container {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 70vh;
+        }
+        .cover-left {
+            left: 10px;
+        }
+
+        .cover-right {
+            right: 10px;
+        }
+
+        .cover-img {
+            width: 150px;
+            height: 300px;
+            margin-block: 20px;
+            opacity: 0.8;
+            border-radius: 2px;
+        }
     </style>
 </head>
 
 <body>
+    <!-- Left side covers -->
+    <div class="cover-container cover-left">
+        <img id="franny-cover" src="https://m.media-amazon.com/images/I/61oBAWnHYHL.jpg" alt="Franny and Zooey"
+            class="cover-img">
+        <img id="sassoon-cover" src="https://images.penguinrandomhouse.com/cover/9780142180594" alt="Regeneration"
+            class="cover-img">
+    </div>
+    
+    <!-- Right side covers -->
+    <div class="cover-container cover-right">
+        <img id="koenigswald-cover" src="https://m.media-amazon.com/images/I/71m3P2Eie2L._AC_UF1000,1000_QL80_.jpg"
+            alt="Cat's Cradle" class="cover-img">
+        <img id="dysart-cover" src="https://m.media-amazon.com/images/I/61pXg9XDq2L._AC_UF350,350_QL50_.jpg" alt="Equus"
+            class="cover-img">
+    </div>
+
+
     <h1>Repentance: Fulfilling or Flawed</h1>
     <p style="text-align: center; max-width: 600px;">
         Does repentance actually heal, or is it flawed, or even futile?
     </p>
+
     <div id="character-select">
         <h2>Choose a Character</h2>
         <button onclick="startGame('franny')">Franny</button>
@@ -74,12 +116,14 @@
         <button onclick="startGame('koenigswald')">Von Koenigswald</button>
         <button onclick="startGame('dysart')">Dysart</button>
     </div>
+
     <div style="display: flex; gap: 2rem; justify-content: center;">
         <div id="game" style="display: none; max-width: 600px;"></div>
         <div id="quote-box"
             style="display: none; max-width: 300px; font-style: italic; border-left: 2px solid #555; padding-left: 1rem;">
         </div>
     </div>
+
     <script src="franny.js"></script>
     <script src="sassoon.js"></script>
     <script src="koenigswald.js"></script>
@@ -92,59 +136,89 @@
         let currentLabel = 'start';
 
         function startGame(character) {
-            currentCharacter = character;
-            currentLabel = 'start';
-            characterSelect.style.display = 'none';
-            gameContainer.style.display = 'block';
-            showStep();
-        }
+                currentCharacter = character;
+                currentLabel = 'start';
+                characterSelect.style.display = 'none';
+                gameContainer.style.display = 'block';
 
-        function showStep() {
-                const step = storyData[currentCharacter][currentLabel];
-                gameContainer.innerHTML = `<div class="fade"><p>${step.text}</p></div>`;
+                // Hide all covers first
+                const covers = ['franny-cover', 'sassoon-cover', 'koenigswald-cover', 'dysart-cover'];
+                covers.forEach(id => {
+                    document.getElementById(id).style.display = 'none';
+                });
 
-                const quoteBox = document.getElementById('quote-box');
-                if (step.quote) {
-                    quoteBox.innerHTML = `<div class="fade"><p>${step.quote}</p></div>`;
-                    quoteBox.style.display = 'block';
-                } else {
-                    quoteBox.style.display = 'none';
-                    quoteBox.innerHTML = '';
-                }
+                // Move chosen cover to bottom right
+                const chosenCover = document.getElementById(`${character}-cover`);
+                chosenCover.style.display = 'block';
+                chosenCover.style.position = 'fixed';
+                chosenCover.style.bottom = '0px';
+                chosenCover.style.right = '20px';
+                chosenCover.style.left = 'auto';  // reset left/right to avoid weirdness
+                chosenCover.style.zIndex = '1000';  // bring it above everything if needed
+                chosenCover.style.height = '200px'
 
-                if (step.choices && step.choices.length > 0) {
-                    step.choices.forEach(choice => {
-                        const btn = document.createElement('button');
-                        btn.textContent = choice.text;
-                        btn.className = 'choice-btn fade';
-                        btn.onclick = () => {
-                            currentLabel = choice.next;
-                            showStep();
-                        };
-                        gameContainer.appendChild(btn);
-                    });
-                } else {
-                    if (step.lesson) {
-                        const lessonEl = document.createElement('div');
-                        lessonEl.innerHTML = `<p><em>Lesson:</em> ${step.lesson}</p>`;
-                        lessonEl.className = 'fade';
-                        gameContainer.appendChild(lessonEl);
-                    }
-
-                    const restartBtn = document.createElement('button');
-                    restartBtn.textContent = "Restart";
-                    restartBtn.className = 'fade';
-                    restartBtn.onclick = () => {
-                        gameContainer.style.display = 'none';
-                        characterSelect.style.display = 'block';
-                        quoteBox.style.display = 'none';
-                    };
-                    gameContainer.appendChild(restartBtn);
-                }
+                showStep();
             }
 
 
 
+        function showStep() {
+            const step = storyData[currentCharacter][currentLabel];
+            gameContainer.innerHTML = `<div class="fade"><p>${step.text}</p></div>`;
+
+            const quoteBox = document.getElementById('quote-box');
+            if (step.quote) {
+                quoteBox.innerHTML = `<div class="fade"><p>${step.quote}</p></div>`;
+                quoteBox.style.display = 'block';
+            } else {
+                quoteBox.style.display = 'none';
+                quoteBox.innerHTML = '';
+            }
+
+            if (step.choices && step.choices.length > 0) {
+                step.choices.forEach(choice => {
+                    const btn = document.createElement('button');
+                    btn.textContent = choice.text;
+                    btn.className = 'choice-btn fade';
+                    btn.onclick = () => {
+                        currentLabel = choice.next;
+                        showStep();
+                    };
+                    gameContainer.appendChild(btn);
+                });
+            } else {
+                if (step.lesson) {
+                    const lessonEl = document.createElement('div');
+                    lessonEl.innerHTML = `<p><em>Lesson:</em> ${step.lesson}</p>`;
+                    lessonEl.className = 'fade';
+                    gameContainer.appendChild(lessonEl);
+                }
+
+                const restartBtn = document.createElement('button');
+                restartBtn.textContent = "Restart";
+                restartBtn.className = 'fade';
+                restartBtn.onclick = () => {
+                    gameContainer.style.display = 'none';
+                    characterSelect.style.display = 'block';
+                    quoteBox.style.display = 'none';
+
+                    // Reset all covers back
+                    const covers = ['franny-cover', 'sassoon-cover', 'koenigswald-cover', 'dysart-cover'];
+                    covers.forEach(id => {
+                        const cover = document.getElementById(id);
+                        cover.style.display = 'block';
+                        cover.style.position = 'static'
+                        cover.style.bottom = '';
+                        cover.style.right = '';
+                        cover.style.left = '';
+                        cover.style.zIndex = '';
+                        cover.style.height = '300px'
+                    });
+                };
+
+                gameContainer.appendChild(restartBtn);
+            }
+        }
     </script>
 </body>
 
